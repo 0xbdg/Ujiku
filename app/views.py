@@ -121,9 +121,28 @@ class TeacherView(ListView):
     context_object_name = "teachers"
     paginate_by = 10
 
-class TeacherCreateView(FormView):
-    form_class=""
-    success_url=reverse_lazy("")
+class TeacherCreateView(View):
+    def get(self, request):
+        form1 = AccountForm()
+        form2 = TeacherForm()
+        return render(request,"superuser/pages/account/teacher_add.html", context={"form1":form1, "form2":form2})
+
+    def post(self, request):
+        form1 = AccountForm(data=request.POST)
+        form2 = TeacherForm(data=request.POST)
+
+        if form1.is_valid() and form2.is_valid():
+            firstname = form1.cleaned_data["firstname"]
+            lastname = form1.cleaned_data["lastname"]
+            username = form1.cleaned_data["username"]
+            email = form1.cleaned_data["email"]
+            password1 = form1.cleaned_data["password1"]
+            password2 = form1.cleaned_data["password2"]
+
+            Account(first_name=firstname, last_name=lastname, email=email, username=username, is_staff=True, is_teacher=True, is_student=False, is_superuser=False, password=(password2 if password1 == password2 else password2)).save()
+            form2.save()
+
+            return redirect("admin-teacher-acc")
     
 class StudentView(ListView):
     model = Student
@@ -132,5 +151,7 @@ class StudentView(ListView):
     paginate_by = 10
 
 class AdminView(ListView):
+    model = Account
+    context_object_name="superusers"
     template_name="superuser/pages/account/superuser.html"
-    
+    paginate_by=10
