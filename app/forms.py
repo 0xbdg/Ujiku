@@ -36,11 +36,15 @@ class AccountForm(forms.Form):
     password1 = forms.CharField(widget=PasswordInput(attrs={"placeholder":"Enter new password", "class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"}))
     password2 = forms.CharField(widget=PasswordInput(attrs={"placeholder":"Confirm new password","class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"})) 
 
-class TeacherForm(forms.ModelForm):
-    photo = forms.ImageField()
+class TeacherForm(forms.Form):
+    photo = forms.ImageField(required=False, widget=ClearableFileInput(attrs={"class":"px-4 py-2 text-sm border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-gray-400"}))
     gender = forms.ChoiceField(choices=GENDER,widget=Select(attrs={"class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 bg-white"}))
-    subject_id = forms.ChoiceField(widget=Select(attrs={"class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 bg-white"}))
+    subject_id = forms.ModelChoiceField(queryset=Subject.objects.all(),widget=Select(attrs={"class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 bg-white"}))
 
-    class Meta:
-        model = Teacher
-        fields = ["photo", "gender", "subject_id"]
+class StudentForm(forms.Form):
+    photo = forms.ImageField(required=False, widget=ClearableFileInput(attrs={"class":"px-4 py-2 text-sm border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-gray-400"}))
+    grade = forms.ChoiceField(choices=GRADE,widget=Select(attrs={"class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 bg-white"}))
+    gender = forms.ChoiceField(choices=GENDER,widget=Select(attrs={"class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 bg-white"}))
+
+
+

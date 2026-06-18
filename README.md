@@ -1,2 +1,2 @@
-# E-Ujian
+# Ujiku
 Ujian online CBT berbasis website

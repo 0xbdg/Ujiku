@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django_ckeditor_5.fields import CKEditor5Field
 
 GENDER = (("Male", "male"), ("Female", "female"))
-
+GRADE = (("X", "X"), ("XI", "XI"), ("XII","XII"))
 
 class Account(AbstractUser):
     is_teacher = models.BooleanField(default=False)
@@ -13,7 +13,7 @@ class Account(AbstractUser):
 class Student(models.Model):
     user_id = models.ForeignKey(Account, on_delete=models.CASCADE)
     photo = models.ImageField(null=True, blank=True)
-    grade = models.CharField(max_length=50)
+    grade = models.CharField(max_length=50, choices=GRADE)
     gender = models.CharField(max_length=20, choices=GENDER)
 
 

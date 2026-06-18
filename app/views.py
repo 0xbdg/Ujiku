@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.views import View
 from django.views.generic import FormView, ListView, DetailView, TemplateView
 from django.urls import reverse_lazy
-from django.shortcuts import render,get_object_or_404,redirect
+from django.shortcuts import render,get_object_or_404,redirect, HttpResponse
 from django.utils import timezone
 from datetime import datetime
 from .forms import *
@@ -129,7 +129,7 @@ class TeacherCreateView(View):
 
     def post(self, request):
         form1 = AccountForm(data=request.POST)
-        form2 = TeacherForm(data=request.POST)
+        form2 = TeacherForm(request.POST, request.FILES)
 
         if form1.is_valid() and form2.is_valid():
             firstname = form1.cleaned_data["firstname"]
@@ -139,16 +139,37 @@ class TeacherCreateView(View):
             password1 = form1.cleaned_data["password1"]
             password2 = form1.cleaned_data["password2"]
 
-            Account(first_name=firstname, last_name=lastname, email=email, username=username, is_staff=True, is_teacher=True, is_student=False, is_superuser=False, password=(password2 if password1 == password2 else password2)).save()
-            form2.save()
+            photo = form2.cleaned_data["photo"]
+            gender = form2.cleaned_data["gender"]
+            subject = form2.cleaned_data["subject_id"]
+
+            acc = Account.objects.create_user(first_name=firstname, last_name=lastname, email=email, username=username, is_staff=True, is_teacher=True, is_student=False, is_superuser=False, password=(password2 if password1 == password2 else password2))
+            Teacher.objects.create(user_id=acc, photo=photo, gender=gender,subject_id=subject)
 
             return redirect("admin-teacher-acc")
+        return HttpResponse("Error")
+
+class TeacherUpdateView(View):
+    def get(self,request, pk):
+        acc=Account.objects.get(id=pk)
+        teacher = get_object_or_404(Teacher, user_id=acc)
+        form1 = AccountForm(instance=acc)
+        form2 = TeacherForm()
+
+        return render(request, "superuser/pages/account/teacher_update.html", context={"form1":form1, "form2":form2})
     
 class StudentView(ListView):
     model = Student
     context_object_name="students"
     template_name="superuser/pages/account/student.html" 
     paginate_by = 10
+
+class StudentCreateView(View):
+    def get(self, request):
+        form1 = AccountForm()
+        form2 = TeacherForm()
+
+        return render(request, "superuser/pages/account/student_add.html", context={"form1":form1, "form2":form2})
 
 class AdminView(ListView):
     model = Account
