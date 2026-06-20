@@ -1,4 +1,3 @@
-from django.core.paginator import Paginator
 from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpResponse
 from django.views import View
@@ -177,6 +176,7 @@ class TeacherUpdateView(View):
         if form1.is_valid() and form2.is_valid():
             password1 = form1.cleaned_data["password1"]
             password2 = form1.cleaned_data["password2"]
+            photo = form2.cleaned_data["photo"]
             acc.first_name = form1.cleaned_data["firstname"]
             acc.last_name = form1.cleaned_data["lastname"]
             acc.username = form1.cleaned_data["username"]
@@ -186,7 +186,8 @@ class TeacherUpdateView(View):
 
             acc.save()
 
-            teacher.photo = form2.cleaned_data["photo"]
+            if photo:
+                teacher.photo = photo
             teacher.gender = form2.cleaned_data["gender"]
             teacher.subject_id= form2.cleaned_data["subject_id"]
 
@@ -203,9 +204,79 @@ class StudentView(ListView):
 class StudentCreateView(View):
     def get(self, request):
         form1 = AccountForm()
-        form2 = TeacherForm()
+        form2 = StudentForm()
 
         return render(request, "superuser/pages/account/student_add.html", context={"form1":form1, "form2":form2})
+
+    def post(self,request):
+        form1 = AccountForm(data=request.POST)
+        form2 = StudentForm(request.POST, request.FILES)
+
+        if form1.is_valid() and form2.is_valid():
+            firstname = form1.cleaned_data["firstname"]
+            lastname = form1.cleaned_data["lastname"]
+            username = form1.cleaned_data["username"]
+            email = form1.cleaned_data["email"]
+            password1 = form1.cleaned_data["password1"]
+            password2 = form1.cleaned_data["password2"]
+
+            photo = form2.cleaned_data["photo"]
+            gender = form2.cleaned_data["gender"]
+            grade = form2.cleaned_data["grade"]
+
+            acc = Account.objects.create_user(first_name=firstname, last_name=lastname, email=email, username=username, is_staff=False, is_teacher=False, is_student=True, is_superuser=False, password=(password2 if password1 == password2 else password2))
+            Student.objects.create(user_id=acc, photo=photo, gender=gender,grade=grade)
+
+            return redirect("admin-student-acc")
+        return HttpResponse("Error")
+
+class StudentUpdateView(View):
+    def get(self,request, pk):
+        acc=get_object_or_404(Account,username=pk)
+        student = get_object_or_404(Student, user_id=acc)
+        form1 = AccountForm(initial={
+            "firstname":acc.first_name,
+            "lastname": acc.last_name,
+            "username":acc.username,
+            "email":acc.email
+        })
+        form2 = StudentForm(initial={
+            "photo": student.photo,
+            "gender": student.gender,
+            "grade":student.grade
+        })
+
+        return render(request, "superuser/pages/account/student_update.html", context={"form1":form1, "form2":form2, "acc":acc})
+
+    def post(self, request, pk):
+        acc = get_object_or_404(Account, username=pk)
+        student = get_object_or_404(Student, user_id=acc)
+
+        form1 = AccountForm(data=request.POST)
+        form2 = StudentForm(request.POST, request.FILES)
+
+        if form1.is_valid() and form2.is_valid():
+            password1 = form1.cleaned_data["password1"]
+            password2 = form1.cleaned_data["password2"]
+            photo = form2.cleaned_data["photo"]
+            acc.first_name = form1.cleaned_data["firstname"]
+            acc.last_name = form1.cleaned_data["lastname"]
+            acc.username = form1.cleaned_data["username"]
+            acc.email = form1.cleaned_data["email"]
+
+            acc.set_password(password1 if password1 == password2 else password2)
+
+            acc.save()
+
+            if photo:
+                student.photo = photo
+            student.gender = form2.cleaned_data["gender"]
+            student.subject_id= form2.cleaned_data["grade"]
+
+            student.save()
+
+            return redirect("admin-teacher-update-acc", pk)
+
 
 class AdminView(ListView):
     model = Account

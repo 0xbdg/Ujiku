@@ -37,12 +37,12 @@ class AccountForm(forms.Form):
     password2 = forms.CharField(required=False,widget=PasswordInput(attrs={"placeholder":"Confirm new password","class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"})) 
 
 class TeacherForm(forms.Form):
-    photo = forms.ImageField(required=False, widget=ClearableFileInput(attrs={"class":"px-4 py-2 text-sm border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-gray-400"}))
+    photo = forms.ImageField(required=False, widget=ClearableFileInput(attrs={"class":"px-4 py-2 text-sm border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-gray-400", "accept":"image/*"}))
     gender = forms.ChoiceField(choices=GENDER,widget=Select(attrs={"class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 bg-white"}))
     subject_id = forms.ModelChoiceField(queryset=Subject.objects.all(),widget=Select(attrs={"class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 bg-white"}))
 
 class StudentForm(forms.Form):
-    photo = forms.ImageField(required=False, widget=ClearableFileInput(attrs={"class":"px-4 py-2 text-sm border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-gray-400"}))
+    photo = forms.ImageField(required=False, widget=ClearableFileInput(attrs={"class":"px-4 py-2 text-sm border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-gray-400", "accept":"image/*"}))
     grade = forms.ChoiceField(choices=GRADE,widget=Select(attrs={"class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 bg-white"}))
     gender = forms.ChoiceField(choices=GENDER,widget=Select(attrs={"class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 bg-white"}))
 
