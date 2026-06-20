@@ -6,14 +6,13 @@
 
 {% block content %}
 <div class="max-w-3xl mx-auto py-8 px-4">
-    <!-- Header -->
     <div class="mb-8">
         <h1 class="text-2xl font-semibold text-gray-900">Update Account</h1>
         <p class="mt-1 text-sm text-gray-500">-</p>
     </div>
 
-    <form class="space-y-6" method="POST">
-        {% csrftoken %}
+    <form class="space-y-6" method="POST" action="{% url 'admin-teacher-update-acc' pk=acc.username %}">
+        {% csrf_token %}
         <div class="border border-gray-200 rounded-lg">
             <div class="px-6 py-4 border-b border-gray-200">
                 <h2 class="text-lg font-medium text-gray-900">Account Information</h2>
@@ -32,9 +31,7 @@
                         <label for="lastname" class="block text-sm font-medium text-gray-700 mb-1">
                             Last Name
                         </label>
-                        <input type="text" id="lastname" name="lastname"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
-                            placeholder="Enter last name" value="Doe">
+                        {{form1.lastname}} 
                     </div>
                 </div>
 
@@ -42,18 +39,14 @@
                     <label for="username" class="block text-sm font-medium text-gray-700 mb-1">
                         Username
                     </label>
-                    <input type="text" id="username" name="username"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
-                        placeholder="Enter username" value="johndoe">
+                    {{ form1.username }} 
                 </div>
 
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
                         Email Address
                     </label>
-                    <input type="email" id="email" name="email"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
-                        placeholder="Enter email address" value="john.doe@example.com">
+                    {{ form1.email }} 
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -61,19 +54,14 @@
                         <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
                             Password
                         </label>
-                        <input type="password" id="password" name="password"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
-                            placeholder="Enter new password">
-                        <p class="mt-1 text-xs text-gray-400">Leave blank to keep current password</p>
+                        {{ form1.password1 }} 
                     </div>
 
                     <div>
                         <label for="confirm_password" class="block text-sm font-medium text-gray-700 mb-1">
                             Confirm Password
                         </label>
-                        <input type="password" id="confirm_password" name="confirm_password"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
-                            placeholder="Confirm new password">
+                        {{ form1.password2 }} 
                     </div>
                 </div>
             </div>
@@ -94,10 +82,7 @@
                         <div class="w-20 h-20 rounded-full bg-gray-100 border border-gray-300 overflow-hidden">
                             <img src="https://via.placeholder.com/150" alt="Profile" class="w-full h-full object-cover">
                         </div>
-                        <button type="button"
-                            class="px-4 py-2 text-sm border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-gray-400">
-                            Change Photo
-                        </button>
+                        {{ form2.photo }} 
                     </div>
                 </div>
 
@@ -106,17 +91,7 @@
                         Gender
                     </label>
                     <div class="flex items-center gap-6">
-                        <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="radio" name="gender" value="male" checked
-                                class="w-4 h-4 text-gray-900 border-gray-300 focus:ring-gray-500">
-                            <span class="text-sm text-gray-700">Male</span>
-                        </label>
-
-                        <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="radio" name="gender" value="female"
-                                class="w-4 h-4 text-gray-900 border-gray-300 focus:ring-gray-500">
-                            <span class="text-sm text-gray-700">Female</span>
-                        </label>
+                        {{ form2.gender }}
 
                         
                     </div>
@@ -126,18 +101,7 @@
                     <label for="subject" class="block text-sm font-medium text-gray-700 mb-1">
                         Subject
                     </label>
-                    <select id="subject" name="subject"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 bg-white">
-                        <option value="">Select a subject</option>
-                        <option value="mathematics">Mathematics</option>
-                        <option value="science" selected>Science</option>
-                        <option value="english">English</option>
-                        <option value="history">History</option>
-                        <option value="geography">Geography</option>
-                        <option value="art">Art & Design</option>
-                        <option value="music">Music</option>
-                        <option value="physical">Physical Education</option>
-                    </select>
+                    {{ form2.subject_id }}
                 </div>
             </div>
         </div>

@@ -33,8 +33,8 @@ class AccountForm(forms.Form):
     lastname = forms.CharField(widget=TextInput(attrs={"class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"}))
     username = forms.CharField(widget=TextInput(attrs={"class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"}))
     email= forms.EmailField(widget=EmailInput(attrs={"class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"}))
-    password1 = forms.CharField(widget=PasswordInput(attrs={"placeholder":"Enter new password", "class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"}))
-    password2 = forms.CharField(widget=PasswordInput(attrs={"placeholder":"Confirm new password","class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"})) 
+    password1 = forms.CharField(required=False,widget=PasswordInput(attrs={"placeholder":"Enter new password", "class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"}))
+    password2 = forms.CharField(required=False,widget=PasswordInput(attrs={"placeholder":"Confirm new password","class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"})) 
 
 class TeacherForm(forms.Form):
     photo = forms.ImageField(required=False, widget=ClearableFileInput(attrs={"class":"px-4 py-2 text-sm border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-gray-400"}))

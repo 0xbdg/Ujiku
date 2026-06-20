@@ -151,12 +151,48 @@ class TeacherCreateView(View):
 
 class TeacherUpdateView(View):
     def get(self,request, pk):
-        acc=Account.objects.get(id=pk)
+        acc=get_object_or_404(Account,username=pk)
         teacher = get_object_or_404(Teacher, user_id=acc)
-        form1 = AccountForm(instance=acc)
-        form2 = TeacherForm()
+        form1 = AccountForm(initial={
+            "firstname":acc.first_name,
+            "lastname": acc.last_name,
+            "username":acc.username,
+            "email":acc.email
+        })
+        form2 = TeacherForm(initial={
+            "photo": teacher.photo,
+            "gender": teacher.gender,
+            "subject_id":teacher.subject_id
+        })
 
-        return render(request, "superuser/pages/account/teacher_update.html", context={"form1":form1, "form2":form2})
+        return render(request, "superuser/pages/account/teacher_update.html", context={"form1":form1, "form2":form2, "acc":acc})
+
+    def post(self, request, pk):
+        acc = get_object_or_404(Account, username=pk)
+        teacher = get_object_or_404(Teacher, user_id=acc)
+
+        form1 = AccountForm(data=request.POST)
+        form2 = TeacherForm(request.POST, request.FILES)
+
+        if form1.is_valid() and form2.is_valid():
+            password1 = form1.cleaned_data["password1"]
+            password2 = form1.cleaned_data["password2"]
+            acc.first_name = form1.cleaned_data["firstname"]
+            acc.last_name = form1.cleaned_data["lastname"]
+            acc.username = form1.cleaned_data["username"]
+            acc.email = form1.cleaned_data["email"]
+
+            acc.set_password(password1 if password1 == password2 else password2)
+
+            acc.save()
+
+            teacher.photo = form2.cleaned_data["photo"]
+            teacher.gender = form2.cleaned_data["gender"]
+            teacher.subject_id= form2.cleaned_data["subject_id"]
+
+            teacher.save()
+
+            return redirect("admin-teacher-update-acc", pk)
     
 class StudentView(ListView):
     model = Student
