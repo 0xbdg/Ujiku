@@ -12,7 +12,9 @@ urlpatterns = [
     path("test/account/teacher/update/<str:pk>/", TeacherUpdateView.as_view(), name="admin-teacher-update-acc"),
     path("test/account/student/", StudentView.as_view(), name="admin-student-acc"),
     path("test/account/student/add/", StudentCreateView.as_view(), name="admin-student-add-acc"),
-    path("test/account/student/update/<str:pk>/", StudentCreateView.as_view(), name="admin-student-update-acc"),
+    path("test/account/student/update/<str:pk>/", StudentUpdateView.as_view(), name="admin-student-update-acc"),
     path("test/account/superuser/", AdminView.as_view(), name="admin-su-acc"),
+    path("test/pembelajaran/mapel/", MapelView.as_view(), name="admin-mapel-pem"),
+
     path("", HomeView.as_view(), name="home"),
 ]

@@ -271,11 +271,11 @@ class StudentUpdateView(View):
             if photo:
                 student.photo = photo
             student.gender = form2.cleaned_data["gender"]
-            student.subject_id= form2.cleaned_data["grade"]
+            student.grade = form2.cleaned_data["grade"]
 
             student.save()
 
-            return redirect("admin-teacher-update-acc", pk)
+            return redirect("admin-student-update-acc", pk)
 
 
 class AdminView(ListView):
@@ -283,3 +283,17 @@ class AdminView(ListView):
     context_object_name="superusers"
     template_name="superuser/pages/account/superuser.html"
     paginate_by=10
+
+class MapelView(View):
+    def get(self,request):
+        sub = Subject.objects.all()
+        sub_count = Subject.objects.count()
+        form = SubjectForm()
+        return render(request, "superuser/pages/pembelajaran/mapel.html", context={"subjects":sub, "count":sub_count, "form":form})
+
+    def post(self,request):
+        form = SubjectForm(data=request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("admin-mapel-pem")
