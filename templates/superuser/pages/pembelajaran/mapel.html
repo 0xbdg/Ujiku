@@ -5,8 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="max-w mx-auto p-6 space-y-10">
-
+<div class="mx-auto p-6 space-y-10">
     <section>
         <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
             <h2 class="text-2xl font-bold mb-6 text-gray-900">Tambah Mapel Baru</h2>
@@ -33,15 +32,16 @@
     <section>
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-bold text-gray-900">Daftar mapel</h2>
-            <span class="text-sm text-gray-500 bg-gray-200 px-3 py-1 rounded-full">{{count}} Item</span>
+            <span class="text-sm text-gray-500 bg-gray-200 px-3 py-1 rounded-full">{{count}} mapel</span>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
             {% for s in subjects%}
-            <div
-                class="bg-white rounded-xl shadow-md p-6 relative border border-gray-100 flex flex-col items-center justify-center text-center">
+            <form method="POST" action="{% url 'admin-mapel-delete-pem' pk=s.id %}" class="bg-white rounded-xl shadow-md p-6 relative border border-gray-100 flex flex-col items-center justify-center text-center">
+                {% csrf_token %}
                 <button
+                    type="submit"
                     class="absolute top-4 right-4 bg-red-500 hover:bg-red-600 text-white rounded-full p-1.5 flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -50,7 +50,7 @@
                     </svg>
                 </button>
                 <h3 class="text-lg font-bold text-gray-900 text-center">{{s.subject}}</h3>
-            </div>
+            </form>
             {% endfor %}
 
         </div>

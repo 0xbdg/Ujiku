@@ -1,7 +1,7 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpResponse
 from django.views import View
-from django.views.generic import FormView, ListView, DetailView, TemplateView
+from django.views.generic import ListView, TemplateView, DeleteView
 from django.urls import reverse_lazy
 from django.shortcuts import render,get_object_or_404,redirect, HttpResponse
 from django.utils import timezone
@@ -194,7 +194,17 @@ class TeacherUpdateView(View):
             teacher.save()
 
             return redirect("admin-teacher-update-acc", pk)
-    
+
+class TeacherDeleteView(View):
+    def post(self,request, pk):
+        acc = get_object_or_404(Account, username=pk)
+        teacher = get_object_or_404(Teacher, user_id=acc)
+
+        acc.delete()
+        teacher.delete()
+
+        return redirect("admin-teacher-acc")
+
 class StudentView(ListView):
     model = Student
     context_object_name="students"
@@ -277,6 +287,16 @@ class StudentUpdateView(View):
 
             return redirect("admin-student-update-acc", pk)
 
+class StudentDeleteView(View):
+    def post(self,request, pk):
+        acc = get_object_or_404(Account, username=pk)
+        student = get_object_or_404(Student, user_id=acc)
+
+        acc.delete()
+        student.delete()
+
+        return redirect("admin-student-acc")
+
 
 class AdminView(ListView):
     model = Account
@@ -297,3 +317,10 @@ class MapelView(View):
         if form.is_valid():
             form.save()
             return redirect("admin-mapel-pem")
+
+class MapelDeleteView(DeleteView):
+    model = Subject
+    success_url = reverse_lazy("admin-mapel-pem")
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
