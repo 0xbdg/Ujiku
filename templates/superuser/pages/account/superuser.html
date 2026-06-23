@@ -15,7 +15,7 @@
             <input type="text" placeholder="Search users..."
                 class="w-full px-4 py-2 rounded-md border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
-        <a href="https://abhirajk.vercel.app/" target="blank">
+        <a href="{% url 'admin-su-add-acc' %}">
             <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300">
                 Buat admin
             </button>
@@ -30,7 +30,7 @@
                     <th class="py-3 px-6 text-left">ID</th>
                     <th class="py-3 px-6 text-left">Name</th>
                     <th class="py-3 px-6 text-left">Email</th>
-                    <th class="py-3 px-6 text-left">Role</th>
+                    <th class="py-3 px-6 text-left">is_admin</th>
                     <th class="py-3 px-6 text-center">Actions</th>
                 </tr>
             </thead>
@@ -41,16 +41,16 @@
                     <td class="py-3 px-6 text-left">{{forloop.counter}}</td>
                     <td class="py-3 px-6 text-left">{{s.username}}</td>
                     <td class="py-3 px-6 text-left">{{s.email}}</td>
-                    <td class="py-3 px-6 text-left">Admin</td>
+                    <td class="py-3 px-6 text-left">{{s.is_superuser}}</td>
                     <td class="py-3 px-6 text-center">
                         <div class="flex item-center justify-center">
-                            <button class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
+                            <a href="{% url 'admin-su-update-acc' pk=s.username%}" class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                 </svg>
-                            </button>
+                            </a>
                             <button class="w-4 mr-2 transform hover:text-red-500 hover:scale-110">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">

@@ -16,6 +16,8 @@ urlpatterns = [
     path("test/account/student/update/<str:pk>/", StudentUpdateView.as_view(), name="admin-student-update-acc"),
     path("test/account/student/delete/<str:pk>/", StudentDeleteView.as_view(), name="admin-student-delete-acc"),
     path("test/account/superuser/", AdminView.as_view(), name="admin-su-acc"),
+    path("test/account/superuser/add/", AdminCreateView.as_view(), name="admin-su-add-acc"),
+    path("test/account/superuser/update/<str:pk>/", AdminUpdateView.as_view(), name="admin-su-update-acc"),
     path("test/pembelajaran/mapel/", MapelView.as_view(), name="admin-mapel-pem"),
     path("test/pembelajaran/mapel/delete/<int:pk>", MapelDeleteView.as_view(), name="admin-mapel-delete-pem"),
 

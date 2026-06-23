@@ -304,6 +304,60 @@ class AdminView(ListView):
     template_name="superuser/pages/account/superuser.html"
     paginate_by=10
 
+class AdminCreateView(View):
+    def get(self, request):
+        form = AccountForm()
+        return render(request, "superuser/pages/account/superuser_add.html", context={"form":form})
+    
+    def post(self,request):
+        form = AccountForm(data=request.POST)
+
+        if form.is_valid():
+            firstname = form.cleaned_data["firstname"]
+            lastname = form.cleaned_data["lastname"]
+            username = form.cleaned_data["username"]
+            email = form.cleaned_data["email"]
+            password1 = form.cleaned_data["password1"]
+            password2 = form.cleaned_data["password2"]
+
+            Account.objects.create_user(first_name=firstname, last_name=lastname, email=email, username=username, is_staff=True, is_teacher=False, is_student=False, is_superuser=True, password=(password2 if password1 == password2 else password2))
+
+            return redirect("admin-su-acc")
+        HttpResponse("Error")
+
+class AdminUpdateView(View):
+    def get(self, request, pk):
+        acc = get_object_or_404(Account, username=pk)
+        form = AccountForm(initial={
+            "firstname": acc.first_name,
+            "lastname": acc.last_name,
+            "username": acc.username,
+            "email": acc.email,
+        })
+        return render(request, "superuser/pages/account/superuser_update.html", context={"form":form, "acc":acc.username})
+    
+    def post(self,request, pk):
+        acc = get_object_or_404(Account, username=pk)
+
+        form = AccountForm(data=request.POST)
+
+        if form.is_valid():
+            firstname = form.cleaned_data["firstname"]
+            lastname = form.cleaned_data["lastname"]
+            username = form.cleaned_data["username"]
+            email = form.cleaned_data["email"]
+            password1 = form.cleaned_data["password1"]
+            password2 = form.cleaned_data["password2"]
+
+            acc.first_name = firstname
+            acc.last_name = lastname
+            acc.email = email
+            acc.username=username
+            acc.set_password(password1 if password1 == password2 else password2)
+            acc.save()
+            return redirect("admin-su-update-acc", acc.username)
+        HttpResponse("Error")
+
 class MapelView(View):
     def get(self,request):
         sub = Subject.objects.all()
