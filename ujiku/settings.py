@@ -58,7 +58,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "ujiancbt.urls"
+ROOT_URLCONF = "ujiku.urls"
 
 TEMPLATES = [
     {
@@ -76,7 +76,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "ujiancbt.wsgi.application"
+WSGI_APPLICATION = "ujiku.wsgi.application"
 
 
 # Database

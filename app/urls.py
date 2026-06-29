@@ -18,8 +18,13 @@ urlpatterns = [
     path("test/account/superuser/", AdminView.as_view(), name="admin-su-acc"),
     path("test/account/superuser/add/", AdminCreateView.as_view(), name="admin-su-add-acc"),
     path("test/account/superuser/update/<str:pk>/", AdminUpdateView.as_view(), name="admin-su-update-acc"),
+    path("test/pembelajaran/exam/", ExamView.as_view(), name="admin-exam-pem"),
+    path("test/pembelajaran/exam/add/", ExamView.as_view(), name="admin-exam-add-pem"),
+
     path("test/pembelajaran/mapel/", MapelView.as_view(), name="admin-mapel-pem"),
     path("test/pembelajaran/mapel/delete/<int:pk>", MapelDeleteView.as_view(), name="admin-mapel-delete-pem"),
+    path("test/pembelajaran/bank/", BankSoalView.as_view(), name="admin-bank-pem"),
+
 
 
     path("", HomeView.as_view(), name="home"),

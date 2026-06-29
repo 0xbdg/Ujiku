@@ -4,6 +4,8 @@ from django_ckeditor_5.fields import CKEditor5Field
 
 GENDER = (("Male", "male"), ("Female", "female"))
 GRADE = (("X", "X"), ("XI", "XI"), ("XII","XII"))
+TYPE = (("multiple", "Multiple Choices"), ("essay", "Essay"))
+
 
 class Account(AbstractUser):
     is_teacher = models.BooleanField(default=False)
@@ -47,7 +49,6 @@ class Exam(models.Model):
 
 
 class Question(models.Model):
-    TYPE = (("multiple", "Multiple Choices"), ("essay", "Essay"))
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
     question_type = models.CharField(max_length=50, choices=TYPE)
 

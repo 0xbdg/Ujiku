@@ -1,0 +1,108 @@
+{% extends 'superuser/base.html' %}
+{% load static%}
+
+{% block navbar %}
+{% include 'superuser/components/navbar.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="mx-auto p-6 space-y-10">
+    <section>
+        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+            <h2 class="text-2xl font-bold mb-6 text-gray-900">Tambah Soal Baru</h2>
+
+            <form action="{% url 'admin-bank-pem' %}" method="POST" class="space-y-5">
+                {% csrf_token%}
+                <div>
+                    <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Judul</label>
+                    {{form.exam}}
+                </div>
+                <div>
+                    <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Tipe soal</label>
+                    {{form.question_type}}
+                </div>
+
+                <div class="flex justify-end pt-2">
+                    <button type="submit"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg shadow-sm transition-colors duration-200">
+                        Simpan Data
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <hr class="border-gray-300">
+
+    <section>
+
+
+        <div class="overflow-x-auto bg-white rounded-lg shadow">
+            <table class="w-full table-auto">
+                <thead>
+                    <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                        <th class="py-3 px-6 text-left">ID</th>
+                        <th class="py-3 px-6 text-left">Exam</th>
+                        <th class="py-3 px-6 text-left">Type</th>
+                        <th class="py-3 px-6 text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-600 text-sm">
+                    {% for q in questions%}
+                    <tr class="border-b border-gray-200 hover:bg-gray-100">
+                        <td class="py-3 px-6 text-left">{{forloop.counter}}</td>
+                        <td class="py-3 px-6 text-left">{{q.exam}}</td>
+                        <td class="py-3 px-6 text-left">{{q.question_type}}</td>
+                        <td class="py-3 px-6 text-center">
+                            <form action="{% url 'admin-bank-delete-pem'%}" method="POST"
+                                class="flex item-center justify-center">
+                                {% csrf_token %}
+                                <a href="{% url 'admin-bank-update-pem'%}"
+                                    class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                    </svg>
+                                </a>
+                                <button type="submit" class="w-4 mr-2 transform hover:text-red-500 hover:scale-110">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="flex justify-between items-center mt-6">
+            <div>
+                <span class="text-sm text-gray-700">
+                    Showing 1 to 5 of 5 entries
+                </span>
+            </div>
+            <div class="flex space-x-2">
+                <a href="" target="blank">
+
+                    <button class="px-3 py-1 rounded-md bg-gray-200 text-gray-700 opacity-50">
+                        Previous
+                    </button>
+                </a>
+                <a href="" target="blank">
+
+                    <button class="px-3 py-1 rounded-md bg-gray-200 text-gray-700 opacity-50">
+                        Next
+                    </button>
+                </a>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+{% endblock %}

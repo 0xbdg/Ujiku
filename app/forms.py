@@ -46,9 +46,24 @@ class StudentForm(forms.Form):
     grade = forms.ChoiceField(choices=GRADE,widget=Select(attrs={"class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 bg-white"}))
     gender = forms.ChoiceField(choices=GENDER,widget=Select(attrs={"class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 bg-white"}))
 
+class ExamForm(forms.Form):
+    course = forms.CharField(widget=TextInput(attrs={"class":""}))
+    subject = forms.ModelChoiceField(queryset=Subject.objects.all(), widget=Select(attrs={"class":""}))
+    exam_date = forms.DateField(widget=DateInput(attrs={"class":""}))
+    start_time = forms.TimeField(widget=TimeInput(attrs={"class":""}))
+    end_time = forms.TimeField(widget=TimeInput(attrs={"class":""}))
+
 class SubjectForm(forms.ModelForm):
     subject = forms.CharField(required=True, widget=TextInput(attrs={"class":"w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors", "placeholder":"Masukan mapel"}))
 
     class Meta:
         model = Subject
         fields = ["subject"]
+
+class QuestionForm(forms.ModelForm):
+    exam = forms.ModelChoiceField(queryset=Exam.objects.all(), widget=Select(attrs={"class":"w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"}))
+    question_type = forms.ChoiceField(choices=TYPE, widget=Select(attrs={"class":"w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"}))
+
+    class Meta:
+        model = Question
+        fields = ["exam", "question_type"]

@@ -358,6 +358,12 @@ class AdminUpdateView(View):
             return redirect("admin-su-update-acc", acc.username)
         HttpResponse("Error")
 
+class ExamView(ListView):
+    model = Exam
+    template_name = "superuser/pages/pembelajaran/exam.html"
+    context_object_name = "exams"
+    paginate_by = 10
+
 class MapelView(View):
     def get(self,request):
         sub = Subject.objects.all()
@@ -378,3 +384,16 @@ class MapelDeleteView(DeleteView):
 
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
+
+class BankSoalView(View):
+    def get(self, request):
+        form = QuestionForm()
+        question = Question.objects.all()
+        return render(request, "superuser/pages/pembelajaran/bank.html", context={"form":form, "questions":question})
+
+    def post(self,request):
+        form = QuestionForm(data=request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("admin-bank-pem")
