@@ -42,14 +42,14 @@
                     <td class="py-3 px-6 text-left">{{forloop.counter}}</td>
                     <td class="py-3 px-6 text-left">{{e.course}}</td>
                     <td class="py-3 px-6 text-left">{{e.subject}}</td>
-                    <td class="py-3 px-6 text-left">{{e.exam_date}} {{e.start_date}}</td>
-                    <td class="py-3 px-6 text-left">{{e.exam_date}} {{e.end_date}}}</td>
+                    <td class="py-3 px-6 text-left">{{e.exam_date}} {{e.start_time}}</td>
+                    <td class="py-3 px-6 text-left">{{e.exam_date}} {{e.end_time}}</td>
                     <td class="py-3 px-6 text-left">{{e.created_by}}</td>
                     <td class="py-3 px-6 text-center">
-                        <form action="{% url 'admin-exam-delete-pem' e.id%}" method="POST"
+                        <form action="" method="POST"
                             class="flex item-center justify-center">
                             {% csrf_token %}
-                            <a href="{% url 'admin-exam-update-pem' pk=e.id %}"
+                            <a href=""
                                 class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">

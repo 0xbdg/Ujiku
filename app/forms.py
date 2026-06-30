@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.forms.fields import EmailInput
+from django.forms.models import ModelChoiceField
 from django.forms.widgets import *
 
 from .models import *
@@ -46,12 +47,17 @@ class StudentForm(forms.Form):
     grade = forms.ChoiceField(choices=GRADE,widget=Select(attrs={"class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 bg-white"}))
     gender = forms.ChoiceField(choices=GENDER,widget=Select(attrs={"class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 bg-white"}))
 
-class ExamForm(forms.Form):
-    course = forms.CharField(widget=TextInput(attrs={"class":""}))
-    subject = forms.ModelChoiceField(queryset=Subject.objects.all(), widget=Select(attrs={"class":""}))
-    exam_date = forms.DateField(widget=DateInput(attrs={"class":""}))
-    start_time = forms.TimeField(widget=TimeInput(attrs={"class":""}))
-    end_time = forms.TimeField(widget=TimeInput(attrs={"class":""}))
+class ExamForm(forms.ModelForm):
+    course = forms.CharField(widget=TextInput(attrs={"class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"}))
+    subject = forms.ModelChoiceField(queryset=Subject.objects.all(), widget=Select(attrs={"class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"}))
+    exam_date = forms.DateField(input_formats=["%Y-%m-%d"],widget=DateInput(format="%Y-%m-%d",attrs={"class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"}))
+    start_time = forms.TimeField(widget=TimeInput(attrs={"class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"}))
+    end_time = forms.TimeField(widget=TimeInput(attrs={"class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"}))
+    created_by = ModelChoiceField(queryset=Teacher.objects.all(),widget=Select(attrs={"class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"}) )
+
+    class Meta:
+        model =  Exam
+        fields = ["course", "subject", "exam_date", "start_time", "end_time", "created_by"]
 
 class SubjectForm(forms.ModelForm):
     subject = forms.CharField(required=True, widget=TextInput(attrs={"class":"w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors", "placeholder":"Masukan mapel"}))

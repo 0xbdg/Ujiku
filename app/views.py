@@ -1,7 +1,8 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpResponse
 from django.views import View
-from django.views.generic import ListView, TemplateView, DeleteView
+from django.views.generic import *
+from django.views.generic.edit import *
 from django.urls import reverse_lazy
 from django.shortcuts import render,get_object_or_404,redirect, HttpResponse
 from django.utils import timezone
@@ -363,6 +364,15 @@ class ExamView(ListView):
     template_name = "superuser/pages/pembelajaran/exam.html"
     context_object_name = "exams"
     paginate_by = 10
+
+class ExamAddView(FormView):
+    form_class = ExamForm
+    success_url = reverse_lazy("admin-exam-pem")
+    template_name = "superuser/pages/pembelajaran/exam_add.html"
+
+    def form_valid(self, form):
+        
+        return super().form_valid(form)
 
 class MapelView(View):
     def get(self,request):
