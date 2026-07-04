@@ -3,8 +3,6 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.forms.fields import EmailInput
 from django.forms.models import ModelChoiceField
 from django.forms.widgets import *
-from django_ckeditor_5.fields import CKEditor5Widget
-from django_ckeditor_5.forms import *
 from .models import *
 
 
@@ -76,7 +74,7 @@ class QuestionForm(forms.ModelForm):
         fields = ["exam", "question_type"]
 
 class QuestionAddForm(forms.Form):
-    question = CKEditor5Field()
+    question = forms.CharField(widget=Textarea(attrs={"class":"w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"}))
     option1 = forms.CharField(widget=TextInput())
     option2 = forms.CharField(widget=TextInput())
     option3 = forms.CharField(widget=TextInput())

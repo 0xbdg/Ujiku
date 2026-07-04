@@ -74,25 +74,22 @@
         }
 
         function showQuestionType(type) {
-            const essayForm = document.getElementById('essayForm');
-            const multipleForm = document.getElementById('multipleForm');
-            const essayTab = document.getElementById('essayTab');
-            const multipleTab = document.getElementById('multipleTab');
+            const form = document.getElementById('Form');
+            const createTab = document.getElementById('createTab');
+            const multipleTab = document.getElementById('questionTab');
 
-            if (type === 'essay') {
-                essayForm.classList.remove('hidden');
-                multipleForm.classList.add('hidden');
-                essayTab.classList.add('text-gray-900', 'border-gray-900');
-                essayTab.classList.remove('text-gray-500', 'border-transparent');
-                multipleTab.classList.add('text-gray-500', 'border-transparent');
-                multipleTab.classList.remove('text-gray-900', 'border-gray-900');
+            if (type === 'create') {
+                form.classList.remove('hidden');
+                createTab.classList.add('text-gray-900', 'border-gray-900');
+                createTab.classList.remove('text-gray-500', 'border-transparent');
+                questionTab.classList.add('hidden');
+                questionTab.classList.remove('text-gray-900', 'border-gray-900');
             } else {
-                essayForm.classList.add('hidden');
-                multipleForm.classList.remove('hidden');
-                multipleTab.classList.add('text-gray-900', 'border-gray-900');
-                multipleTab.classList.remove('text-gray-500', 'border-transparent');
-                essayTab.classList.add('text-gray-500', 'border-transparent');
-                essayTab.classList.remove('text-gray-900', 'border-gray-900');
+                form.classList.add('hidden');
+                questionTab.classList.add('text-gray-900', 'border-gray-900');
+                questionTab.classList.remove("hidden");
+                createTab.classList.add('text-gray-500', 'border-transparent');
+                createTab.classList.remove('text-gray-900', 'border-gray-900');
             }
         }
     </script>

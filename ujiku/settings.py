@@ -295,3 +295,5 @@ INTERNAL_IPS = [
 ]
 
 TAILWIND_APP_NAME = "style"
+
+

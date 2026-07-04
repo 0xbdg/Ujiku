@@ -412,9 +412,15 @@ class BankSoalView(View):
 
 class QuestionView(View):
     def get(self,request, pk):
-        q = Question.objects.get(id=pk)
+        q = None
+        model = Question.objects.get(id=pk)
         form = QuestionAddForm()
-        return render(request, "superuser/pages/pembelajaran/question.html", context={"form":form})
+
+        if model.question_type == "essay":
+            q = Essay.objects.filter(question_id=pk)
+        elif model.question_type == "multiple":
+            q = MultipleChoice.objects.filter(question_id=pk)
+        return render(request, "superuser/pages/pembelajaran/question.html", context={"form":form, "model":model, "question":q})
 
     def post(self, request, pk):
         pass
