@@ -67,10 +67,33 @@
     <script>
         function toggleSidebar() {
             document.getElementById('mobileSidebar').classList.toggle('hidden');
-    }
+        }
 
         function toggleMenu(id) {
             document.getElementById(id).classList.toggle('hidden');
+        }
+
+        function showQuestionType(type) {
+            const essayForm = document.getElementById('essayForm');
+            const multipleForm = document.getElementById('multipleForm');
+            const essayTab = document.getElementById('essayTab');
+            const multipleTab = document.getElementById('multipleTab');
+
+            if (type === 'essay') {
+                essayForm.classList.remove('hidden');
+                multipleForm.classList.add('hidden');
+                essayTab.classList.add('text-gray-900', 'border-gray-900');
+                essayTab.classList.remove('text-gray-500', 'border-transparent');
+                multipleTab.classList.add('text-gray-500', 'border-transparent');
+                multipleTab.classList.remove('text-gray-900', 'border-gray-900');
+            } else {
+                essayForm.classList.add('hidden');
+                multipleForm.classList.remove('hidden');
+                multipleTab.classList.add('text-gray-900', 'border-gray-900');
+                multipleTab.classList.remove('text-gray-500', 'border-transparent');
+                essayTab.classList.add('text-gray-500', 'border-transparent');
+                essayTab.classList.remove('text-gray-900', 'border-gray-900');
+            }
         }
     </script>
 

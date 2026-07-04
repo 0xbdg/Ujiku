@@ -85,7 +85,6 @@ class StartExamView(View):
         )
 
     def post(self, request, pk):
-
         data = request.POST.items()
         test = []
 
@@ -365,20 +364,23 @@ class ExamView(ListView):
     context_object_name = "exams"
     paginate_by = 10
 
-class ExamAddView(FormView):
+class ExamAddView(CreateView):
     form_class = ExamForm
     success_url = reverse_lazy("admin-exam-pem")
-    template_name = "superuser/pages/pembelajaran/exam_add.html"
+    template_name = "superuser/pages/pembelajaran/exam_add.html" 
 
-    def form_valid(self, form):
-        
-        return super().form_valid(form)
+class ExamUpdateView(UpdateView):
+    model = Exam
+    form_class = ExamForm
+    success_url = reverse_lazy("admin-exam-pem")
+    context_object_name = "u"
+    template_name = "superuser/pages/pembelajaran/exam_update.html"
 
 class MapelView(View):
     def get(self,request):
         sub = Subject.objects.all()
         sub_count = Subject.objects.count()
-        form = SubjectForm()
+        form = SubjectForm
         return render(request, "superuser/pages/pembelajaran/mapel.html", context={"subjects":sub, "count":sub_count, "form":form})
 
     def post(self,request):
@@ -398,12 +400,22 @@ class MapelDeleteView(DeleteView):
 class BankSoalView(View):
     def get(self, request):
         form = QuestionForm()
-        question = Question.objects.all()
-        return render(request, "superuser/pages/pembelajaran/bank.html", context={"form":form, "questions":question})
+        q = Question.objects.all()
+        return render(request,"superuser/pages/pembelajaran/bank.html", context={"questions":q, "form":form})
 
     def post(self,request):
         form = QuestionForm(data=request.POST)
 
         if form.is_valid():
             form.save()
-            return redirect("admin-bank-pem")
+            return redirect("admin-bank-pem") 
+
+class QuestionView(View):
+    def get(self,request, pk):
+        q = Question.objects.get(id=pk)
+        form = QuestionAddForm()
+        return render(request, "superuser/pages/pembelajaran/question.html", context={"form":form})
+
+    def post(self, request, pk):
+        pass
+    

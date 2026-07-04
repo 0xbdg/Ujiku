@@ -12,7 +12,7 @@
             <h2 class="text-2xl font-bold mb-6 text-gray-900">Tambah Soal Baru</h2>
 
             <form action="{% url 'admin-bank-pem' %}" method="POST" class="space-y-5">
-                {% csrf_token%}
+                {% csrf_token %}
                 <div>
                     <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Judul</label>
                     {{form.exam}}
@@ -48,16 +48,16 @@
                     </tr>
                 </thead>
                 <tbody class="text-gray-600 text-sm">
-                    {% for q in questions%}
+                    {% for q in questions %}
                     <tr class="border-b border-gray-200 hover:bg-gray-100">
                         <td class="py-3 px-6 text-left">{{forloop.counter}}</td>
                         <td class="py-3 px-6 text-left">{{q.exam}}</td>
                         <td class="py-3 px-6 text-left">{{q.question_type}}</td>
                         <td class="py-3 px-6 text-center">
-                            <form action="{% url 'admin-bank-delete-pem'%}" method="POST"
+                            <form action="" method="POST"
                                 class="flex item-center justify-center">
                                 {% csrf_token %}
-                                <a href="{% url 'admin-bank-update-pem'%}"
+                                <a href="{% url 'admin-bank-question-pem' pk=q.id %}"
                                     class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke="currentColor">
@@ -101,8 +101,6 @@
                 </a>
             </div>
         </div>
-
     </section>
-
 </div>
 {% endblock %}
