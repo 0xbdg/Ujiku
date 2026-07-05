@@ -72,10 +72,10 @@ class MultipleChoice(models.Model):
     option3 = models.CharField(max_length=400)
     option4 = models.CharField(max_length=400)
     cat = (
-        ("Option1", "option1"),
-        ("Option2", "option2"),
-        ("Option3", "option3"),
-        ("Option4", "option4"),
+        ("option1", "option1"),
+        ("option2", "option2"),
+        ("option3", "option3"),
+        ("option4", "option4"),
     )
     answer = models.CharField(max_length=200, choices=cat)
 

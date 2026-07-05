@@ -420,8 +420,31 @@ class QuestionView(View):
             q = Essay.objects.filter(question_id=pk)
         elif model.question_type == "multiple":
             q = MultipleChoice.objects.filter(question_id=pk)
-        return render(request, "superuser/pages/pembelajaran/question.html", context={"form":form, "model":model, "question":q})
+        return render(request, "superuser/pages/pembelajaran/question.html", context={"form":form, "model":model, "questions":q})
 
     def post(self, request, pk):
-        pass
+        model = Question.objects.get(id=pk)
+        form = QuestionAddForm(data=request.POST)
+
+        if form.is_valid():
+            if model.question_type == "essay":
+                question = form.cleaned_data["question"]
+
+                Essay(question_id=model, question=question).save()
+
+                return redirect("admin-bank-pem")
+
+            elif model.question_type == "multiple":
+                question = form.cleaned_data["question"]
+                option1 = form.cleaned_data["option1"]
+                option2 = form.cleaned_data["option2"]
+                option3 = form.cleaned_data["option3"]
+                option4 = form.cleaned_data["option4"]
+                correct = request.POST.get("correct_answer")
+
+                MultipleChoice(question_id=model, question=question, option1=option1, option2=option2, option3=option3, option4=option4, answer=correct).save()
+
+                return redirect("admin-bank-pem")
+
+
     

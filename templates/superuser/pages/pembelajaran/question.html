@@ -28,21 +28,20 @@
         </div>
 
         {% if model.question_type == "essay" %}
-        <form id="Form" class="space-y-6">
+        <form id="Form" method="POST" action="{% url 'admin-bank-question-pem' pk=model.id %}" class="space-y-6">
+        {% csrf_token %}
             <div class="border border-gray-200 rounded-lg">
                 <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
                     <h2 class="text-sm font-medium text-gray-700">Essay Question</h2>
                 </div>
                 
                 <div class="p-6 space-y-5"> 
-                    <!-- Question -->
                     <div>
                         <label for="essay_question" class="block text-sm font-medium text-gray-700 mb-1">
                             Question
                         </label>
                         {{form.question}} 
                     </div> 
-                    <!-- Points -->
                     <div class="w-32">
                         <label for="essay_points" class="block text-sm font-medium text-gray-700 mb-1">
                             Points
@@ -53,7 +52,6 @@
                 </div>
             </div>
 
-            <!-- Action Buttons -->
             <div class="flex justify-end gap-3">
                 <button type="button" 
                     class="px-5 py-2.5 text-sm font-medium text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none">
@@ -67,8 +65,8 @@
         </form>
         
         {% elif model.question_type == "multiple" %}
-        <!-- Multiple Choice Form -->
-        <form id="Form" class="space-y-6">
+        <form id="Form" method="POST" action="{% url 'admin-bank-question-pem' pk=model.id %}" class="space-y-6">
+        {% csrf_token%}
             <div class="border border-gray-200 rounded-lg">
                 <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
                     <h2 class="text-sm font-medium text-gray-700">Multiple Choice Question</h2>
@@ -79,9 +77,7 @@
                         <label for="mc_question" class="block text-sm font-medium text-gray-700 mb-1">
                             Question
                         </label>
-                        <textarea id="mc_question" name="question" rows="3" 
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
-                            placeholder="Enter your multiple choice question here..."></textarea>
+                        {{form.question}} 
                     </div>
 
                     <div>
@@ -94,9 +90,7 @@
                                     class="mt-2 w-4 h-4 text-gray-900 border-gray-300 focus:ring-gray-500">
                                 <div class="flex-1">
                                     <label class="block text-xs font-medium text-gray-500 mb-1">Option A</label>
-                                    <input type="text" name="option_a" 
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
-                                        placeholder="Enter option A">
+                                    {{form.option1}} 
                                 </div>
                             </div>
 
@@ -105,9 +99,7 @@
                                     class="mt-2 w-4 h-4 text-gray-900 border-gray-300 focus:ring-gray-500">
                                 <div class="flex-1">
                                     <label class="block text-xs font-medium text-gray-500 mb-1">Option B</label>
-                                    <input type="text" name="option_b" 
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
-                                        placeholder="Enter option B">
+                                    {{form.option2}} 
                                 </div>
                             </div>
 
@@ -116,9 +108,7 @@
                                     class="mt-2 w-4 h-4 text-gray-900 border-gray-300 focus:ring-gray-500">
                                 <div class="flex-1">
                                     <label class="block text-xs font-medium text-gray-500 mb-1">Option C</label>
-                                    <input type="text" name="option_c" 
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
-                                        placeholder="Enter option C">
+                                    {{form.option3}}
                                 </div>
                             </div>
 
@@ -127,16 +117,13 @@
                                     class="mt-2 w-4 h-4 text-gray-900 border-gray-300 focus:ring-gray-500">
                                 <div class="flex-1">
                                     <label class="block text-xs font-medium text-gray-500 mb-1">Option D</label>
-                                    <input type="text" name="option_d" 
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
-                                        placeholder="Enter option D">
+                                    {{form.option4}} 
                                 </div>
                             </div>
                         </div>
                         <p class="mt-2 text-xs text-gray-400">Select the radio button for the correct answer</p>
                     </div>
 
-                    <!-- Points -->
                     <div class="w-32">
                         <label for="mc_points" class="block text-sm font-medium text-gray-700 mb-1">
                             Points
@@ -160,41 +147,28 @@
         </form>
        {% endif %}
        <div class="max-w-5xl mx-auto py-8 px-4 hidden" id="questionTab">
-        <!-- Header -->
         <div class="items-center justify-between mb-8">
             <div>
                 <h1 class="text-2xl font-semibold text-gray-900">Question List</h1>
                 <p class="mt-1 text-sm text-gray-500">Manage all questions</p>
             </div> 
         </div>
-
-        <!-- Question 1 - Essay -->
-        <div class="border border-gray-200 rounded-lg mb-6">
+        {% if model.question_type == "essay" %}
+        {% for q in questions%}
+        <form class="border border-gray-200 rounded-lg mb-6">
             <div class="px-6 py-3 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <span class="text-sm font-medium text-gray-900">Question #1</span>
+                    <span class="text-sm font-medium text-gray-900">Question #{{forloop.counter}}</span>
                     <span class="px-2 py-0.5 text-xs bg-gray-200 text-gray-700 rounded">Essay</span>
                 </div>
                 <button class="text-sm text-red-600 hover:text-red-700">Delete</button>
             </div>
             <div class="p-6 space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
-                    <select class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400">
-                        <option>Select subject</option>
-                        <option selected>Science</option>
-                        <option>Mathematics</option>
-                        <option>English</option>
-                    </select>
-                </div>
+                
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Question</label>
                     <textarea rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400">Explain the process of photosynthesis and its importance to life on Earth.</textarea>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Answer Key</label>
-                    <textarea rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400">Photosynthesis is the process by which green plants and certain other organisms transform light energy into chemical energy...</textarea>
-                </div>
+                </div> 
                 <div class="flex items-center justify-between">
                     <div class="w-32">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Points</label>
@@ -205,27 +179,20 @@
                     </button>
                 </div>
             </div>
-        </div>
-
-        <!-- Question 2 - Multiple Choice -->
-        <div class="border border-gray-200 rounded-lg mb-6">
+        </form>
+        {% endfor %}
+        {% elif model.question_type == "multiple" %}
+        {% for q in questions%}
+        <form class="border border-gray-200 rounded-lg mb-6">
             <div class="px-6 py-3 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <span class="text-sm font-medium text-gray-900">Question #2</span>
+                    <span class="text-sm font-medium text-gray-900">Question #{{forloop.counter}}</span>
                     <span class="px-2 py-0.5 text-xs bg-gray-200 text-gray-700 rounded">Multiple Choice</span>
                 </div>
                 <button class="text-sm text-red-600 hover:text-red-700">Delete</button>
             </div>
             <div class="p-6 space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
-                    <select class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400">
-                        <option>Select subject</option>
-                        <option selected>Mathematics</option>
-                        <option>Science</option>
-                        <option>English</option>
-                    </select>
-                </div>
+                
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Question</label>
                     <textarea rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400">What is the value of π (pi) to two decimal places?</textarea>
@@ -265,7 +232,9 @@
                     </button>
                 </div>
             </div>
-        </div>
+        </form>
+        {% endfor %}
+        {% endif %}
        </div>
  </div>
 {% endblock %}

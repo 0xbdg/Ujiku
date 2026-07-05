@@ -76,7 +76,7 @@
         function showQuestionType(type) {
             const form = document.getElementById('Form');
             const createTab = document.getElementById('createTab');
-            const multipleTab = document.getElementById('questionTab');
+            const questionTab = document.getElementById('questionTab');
 
             if (type === 'create') {
                 form.classList.remove('hidden');
@@ -84,7 +84,7 @@
                 createTab.classList.remove('text-gray-500', 'border-transparent');
                 questionTab.classList.add('hidden');
                 questionTab.classList.remove('text-gray-900', 'border-gray-900');
-            } else {
+            } else if (type === 'questions') {
                 form.classList.add('hidden');
                 questionTab.classList.add('text-gray-900', 'border-gray-900');
                 questionTab.classList.remove("hidden");
