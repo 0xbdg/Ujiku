@@ -446,5 +446,8 @@ class QuestionView(View):
 
                 return redirect("admin-bank-pem")
 
+class QuestionUpdateView(View):
+    def post(self, request, pk):
+        pass
 
     
