@@ -25,5 +25,6 @@ urlpatterns = [
     path("test/pembelajaran/mapel/delete/<int:pk>", MapelDeleteView.as_view(), name="admin-mapel-delete-pem"),
     path("test/pembelajaran/bank/", BankSoalView.as_view(), name="admin-bank-pem"),
     path("test/pembelajaran/bank/question/<int:pk>/", QuestionView.as_view(), name="admin-bank-question-pem"),
+    path("test/pembelajaran/bank/question/update/<int:pk>/<int:q>/", QuestionUpdateView.as_view(), name="admin-bank-question-update-pem"),
     path("", HomeView.as_view(), name="home"),
 ]

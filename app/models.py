@@ -53,7 +53,7 @@ class Question(models.Model):
     question_type = models.CharField(max_length=50, choices=TYPE)
 
     def __str__(self):
-        return f"{self.exam.course} - {self.question_type}"
+        return f"{self.exam.course}"
 
 
 class Essay(models.Model):

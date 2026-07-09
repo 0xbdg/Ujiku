@@ -415,6 +415,7 @@ class QuestionView(View):
         q = None
         model = Question.objects.get(id=pk)
         form = QuestionAddForm()
+        form2 = None
 
         if model.question_type == "essay":
             q = Essay.objects.filter(question_id=pk)
@@ -447,7 +448,26 @@ class QuestionView(View):
                 return redirect("admin-bank-pem")
 
 class QuestionUpdateView(View):
-    def post(self, request, pk):
-        pass
+    def post(self, request, pk,q):
 
+        model = Question.objects.get(id=pk)
+
+        if model.question_type == "multiple":
+            question = request.POST.get("question")            
+            option1 = request.POST.get("option1")
+            option2 = request.POST.get("option2")
+            option3 = request.POST.get("option3")
+            option4 = request.POST.get("option4")
+            answer = request.POST.get("correct_answer")
+
+            MultipleChoice(id=q, question_id=model, question=question,option1=option1, option2=option2, option3=option3, option4=option4, answer=answer).save()
+
+            return redirect("admin-bank-pem")
+        
+        elif model.question_type == "essay":
+            question = request.POST.get("question")
+
+            Essay(id=q, question_id=model,question=question).save()
+
+            return redirect("admin-bank-pem")
     
