@@ -56,7 +56,7 @@
                         <td class="py-3 px-6 text-left">{{q.exam.subject}}</td>
                         <td class="py-3 px-6 text-left">{{q.question_type}}</td>
                         <td class="py-3 px-6 text-center">
-                            <form action="" method="POST"
+                            <form action="{%url 'admin-bank-delete-pem' pk=q.id%}" method="POST"
                                 class="flex item-center justify-center">
                                 {% csrf_token %}
                                 <a href="{% url 'admin-bank-question-pem' pk=q.id %}"

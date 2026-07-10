@@ -7,13 +7,11 @@
 
 {% block content %}
 <div class="max-w-4xl mx-auto py-8 px-4">
-        <!-- Header -->
         <div class="mb-8">
             <h1 class="text-2xl font-semibold text-gray-900">Add Questions</h1>
             <p class="mt-1 text-sm text-gray-500">Create {{model.question_type}} questions</p>
         </div>
 
-        <!-- Question Type Tabs -->
         <div class="border-b border-gray-200 mb-6">
             <nav class="flex gap-6">
                 <button onclick="showQuestionType('create')" id="createTab" 
@@ -155,17 +153,17 @@
         </div>
         {% if model.question_type == "essay" %}
         {% for q in questions%}
-        <form method="POST" action="{% url 'admin-bank-question-update-pem' pk=model.id q=q.id %}" class="border border-gray-200 rounded-lg mb-6">
-            {% csrf_token %}
-            <div class="px-6 py-3 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
+        <div class="border border-gray-200 rounded-lg mb-6">
+            <form method="POST" action="{% url 'admin-bank-question-delete-pem' pk=model.id q=q.id%}" class="px-6 py-3 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
+                {% csrf_token %}
                 <div class="flex items-center gap-3">
                     <span class="text-sm font-medium text-gray-900">Question #{{forloop.counter}}</span>
                     <span class="px-2 py-0.5 text-xs bg-gray-200 text-gray-700 rounded">Essay</span>
                 </div>
-                <button class="text-sm text-red-600 hover:text-red-700">Delete</button>
-            </div>
-            <div class="p-6 space-y-4">
-                
+                <button type="submit" class="text-sm text-red-600 hover:text-red-700">Delete</button>
+            </form>
+            <form method="POST" action="{% url 'admin-bank-question-update-pem' pk=model.id q=q.id %}" class="p-6 space-y-4">
+                {% csrf_token %}
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Question</label>
                     <textarea name="question" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400">{{q.question}}</textarea>
@@ -179,21 +177,22 @@
                         Update
                     </button>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
         {% endfor %}
         {% elif model.question_type == "multiple" %}
         {% for q in questions%}
-        <form method="POST" action="{% url 'admin-bank-question-update-pem' pk=model.id q=q.id %}" class="border border-gray-200 rounded-lg mb-6">
-            {% csrf_token%}
-            <div class="px-6 py-3 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
+        <div class="border border-gray-200 rounded-lg mb-6">
+            <form method="POST" action="{% url 'admin-bank-question-delete-pem' pk=model.id q=q.id%}" class="px-6 py-3 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
+                {% csrf_token%}
                 <div class="flex items-center gap-3">
                     <span class="text-sm font-medium text-gray-900">Question #{{forloop.counter}}</span>
                     <span class="px-2 py-0.5 text-xs bg-gray-200 text-gray-700 rounded">Multiple Choice</span>
                 </div>
-                <button class="text-sm text-red-600 hover:text-red-700">Delete</button>
-            </div>
-            <div class="p-6 space-y-4"> 
+                <button type="submit" class="text-sm text-red-600 hover:text-red-700">Delete</button>
+            </form>
+            <form method="POST" action="{% url 'admin-bank-question-update-pem' pk=model.id q=q.id %}" class="p-6 space-y-4">
+                {% csrf_token%}
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Question</label>
                     <textarea name="question" rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400">{{q.question}}</textarea>
@@ -232,8 +231,8 @@
                         Update
                     </button>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
         {% endfor %}
         {% endif %}
        </div>

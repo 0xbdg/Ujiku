@@ -410,6 +410,10 @@ class BankSoalView(View):
             form.save()
             return redirect("admin-bank-pem") 
 
+class BankSoalDeleteView(DeleteView):
+    model = Question
+    success_url = reverse_lazy("admin-bank-pem")
+
 class QuestionView(View):
     def get(self,request, pk):
         q = None
@@ -470,4 +474,19 @@ class QuestionUpdateView(View):
             Essay(id=q, question_id=model,question=question).save()
 
             return redirect("admin-bank-pem")
-    
+   
+class QuestionDeleteView(View):
+    def post(self, request,pk, q):
+        model = Question.objects.get(id=pk)
+
+        if model.question_type == "essay":
+            e = Essay.objects.get(id=q, question_id=model)
+            e.delete()
+
+            return redirect("admin-bank-pem")
+
+        elif model.question_type == "multiple":
+            e = MultipleChoice.objects.get(id=q, question_id=model)
+            e.delete()
+
+            return redirect("admin-bank-pem")
