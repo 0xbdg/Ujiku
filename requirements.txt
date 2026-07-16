@@ -3,5 +3,8 @@ django-ckeditor-5
 django-tailwind[cookiecutter,honcho,reload]
 django-browser-reload
 django-seed
+djangorestframework
 psycopg2-binary
 python-dotenv
+markdown
+django-filter

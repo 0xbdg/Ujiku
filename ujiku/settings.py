@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "app",
     "django_ckeditor_5",
     "django_seed",
+    "rest_framework"
 ]
 
 MIDDLEWARE = [

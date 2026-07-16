@@ -30,7 +30,7 @@ class SigninView(LoginView):
             return reverse_lazy("home")
 
 
-class HomeView(ListView):
+class HomeView(ListView,StudentMixin):
     model = Exam
     template_name = "client/pages/home.html"
     paginate_by = 6
@@ -52,7 +52,7 @@ class HomeView(ListView):
         return context
 
 
-class StartExamView(View):
+class StartExamView(View, StudentMixin):
     def get(self, request, pk):
         question = Question.objects.get(id=pk)
         efinish = False
@@ -104,7 +104,7 @@ class StartExamView(View):
         return redirect("home")
 
 
-class DashboardView(TemplateView):
+class DashboardView(TemplateView, AdminMixin):
     template_name = "superuser/pages/dashboard.html"
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -114,13 +114,13 @@ class DashboardView(TemplateView):
         context["question_c"] = Question.objects.count()
         return context
 
-class TeacherView(ListView):
+class TeacherView(ListView, AdminMixin):
     model = Teacher
     template_name = "superuser/pages/account/teacher.html"
     context_object_name = "teachers"
     paginate_by = 10
 
-class TeacherCreateView(View):
+class TeacherCreateView(View,AdminMixin):
     def get(self, request):
         form1 = AccountForm()
         form2 = TeacherForm()
@@ -148,7 +148,7 @@ class TeacherCreateView(View):
             return redirect("admin-teacher-acc")
         return HttpResponse("Error")
 
-class TeacherUpdateView(View):
+class TeacherUpdateView(View, AdminMixin):
     def get(self,request, pk):
         acc=get_object_or_404(Account,username=pk)
         teacher = get_object_or_404(Teacher, user_id=acc)
@@ -195,7 +195,7 @@ class TeacherUpdateView(View):
 
             return redirect("admin-teacher-update-acc", pk)
 
-class TeacherDeleteView(View):
+class TeacherDeleteView(View, AdminMixin):
     def post(self,request, pk):
         acc = get_object_or_404(Account, username=pk)
         teacher = get_object_or_404(Teacher, user_id=acc)
@@ -205,7 +205,7 @@ class TeacherDeleteView(View):
 
         return redirect("admin-teacher-acc")
 
-class StudentView(ListView):
+class StudentView(ListView, AdminMixin):
     model = Student
     context_object_name="students"
     template_name="superuser/pages/account/student.html" 
@@ -240,7 +240,7 @@ class StudentCreateView(View):
             return redirect("admin-student-acc")
         return HttpResponse("Error")
 
-class StudentUpdateView(View):
+class StudentUpdateView(View, AdminMixin):
     def get(self,request, pk):
         acc=get_object_or_404(Account,username=pk)
         student = get_object_or_404(Student, user_id=acc)
@@ -287,7 +287,7 @@ class StudentUpdateView(View):
 
             return redirect("admin-student-update-acc", pk)
 
-class StudentDeleteView(View):
+class StudentDeleteView(View, AdminMixin):
     def post(self,request, pk):
         acc = get_object_or_404(Account, username=pk)
         student = get_object_or_404(Student, user_id=acc)
@@ -298,13 +298,13 @@ class StudentDeleteView(View):
         return redirect("admin-student-acc")
 
 
-class AdminView(ListView):
+class AdminView(ListView, AdminMixin):
     model = Account
     context_object_name="superusers"
     template_name="superuser/pages/account/superuser.html"
     paginate_by=10
 
-class AdminCreateView(View):
+class AdminCreateView(View, AdminMixin):
     def get(self, request):
         form = AccountForm()
         return render(request, "superuser/pages/account/superuser_add.html", context={"form":form})
@@ -325,7 +325,7 @@ class AdminCreateView(View):
             return redirect("admin-su-acc")
         HttpResponse("Error")
 
-class AdminUpdateView(View):
+class AdminUpdateView(View, AdminMixin):
     def get(self, request, pk):
         acc = get_object_or_404(Account, username=pk)
         form = AccountForm(initial={
@@ -358,25 +358,25 @@ class AdminUpdateView(View):
             return redirect("admin-su-update-acc", acc.username)
         HttpResponse("Error")
 
-class ExamView(ListView):
+class ExamView(ListView, AdminMixin):
     model = Exam
     template_name = "superuser/pages/pembelajaran/exam.html"
     context_object_name = "exams"
     paginate_by = 10
 
-class ExamAddView(CreateView):
+class ExamAddView(CreateView, AdminMixin):
     form_class = ExamForm
     success_url = reverse_lazy("admin-exam-pem")
     template_name = "superuser/pages/pembelajaran/exam_add.html" 
 
-class ExamUpdateView(UpdateView):
+class ExamUpdateView(UpdateView,AdminMixin):
     model = Exam
     form_class = ExamForm
     success_url = reverse_lazy("admin-exam-pem")
     context_object_name = "u"
     template_name = "superuser/pages/pembelajaran/exam_update.html"
 
-class MapelView(View):
+class MapelView(View,AdminMixin):
     def get(self,request):
         sub = Subject.objects.all()
         sub_count = Subject.objects.count()
@@ -390,14 +390,14 @@ class MapelView(View):
             form.save()
             return redirect("admin-mapel-pem")
 
-class MapelDeleteView(DeleteView):
+class MapelDeleteView(DeleteView, AdminMixin):
     model = Subject
     success_url = reverse_lazy("admin-mapel-pem")
 
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
 
-class BankSoalView(View):
+class BankSoalView(View, AdminMixin):
     def get(self, request):
         form = QuestionForm()
         q = Question.objects.all()
@@ -410,11 +410,11 @@ class BankSoalView(View):
             form.save()
             return redirect("admin-bank-pem") 
 
-class BankSoalDeleteView(DeleteView):
+class BankSoalDeleteView(DeleteView, AdminMixin):
     model = Question
     success_url = reverse_lazy("admin-bank-pem")
 
-class QuestionView(View):
+class QuestionView(View, AdminMixin):
     def get(self,request, pk):
         q = None
         model = Question.objects.get(id=pk)
@@ -451,7 +451,7 @@ class QuestionView(View):
 
                 return redirect("admin-bank-pem")
 
-class QuestionUpdateView(View):
+class QuestionUpdateView(View, AdminMixin):
     def post(self, request, pk,q):
 
         model = Question.objects.get(id=pk)
@@ -475,7 +475,7 @@ class QuestionUpdateView(View):
 
             return redirect("admin-bank-pem")
    
-class QuestionDeleteView(View):
+class QuestionDeleteView(View, AdminMixin):
     def post(self, request,pk, q):
         model = Question.objects.get(id=pk)
 

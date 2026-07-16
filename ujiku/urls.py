@@ -24,6 +24,7 @@ from app.admin import *
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("app.urls")),
+    path("api/", include("api.urls")),
     path("ckeditor/", include("django_ckeditor_5.urls")),
 ]
 
