@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "tailwind",
     "style",
     "app",
+    "api",
     "django_ckeditor_5",
     "django_seed",
     "rest_framework"
