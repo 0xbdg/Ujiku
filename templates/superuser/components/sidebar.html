@@ -1,0 +1,40 @@
+{% load static %}
+<aside class="w-64 bg-gray-900 text-white hidden md:flex flex-col">
+    <div class="p-4 text-xl font-bold border-b border-gray-700">
+        Ujiku dashboard
+    </div>
+    <nav class="flex-1 p-4 space-y-2">
+        <a href="{% url 'admin-dashboard'%}" class="block px-4 py-2 rounded hover:bg-gray-800">Dashboard</a>
+
+        <div>
+            <button onclick="toggleMenu('akunMenu')"
+                class="w-full text-left px-4 py-2 mt-4 flex justify-between items-center hover:bg-gray-800 rounded">
+                <span>Akun</span>
+                <span>▾</span>
+            </button>
+            <div id="akunMenu" class="ml-2 mt-2 space-y-1 hidden">
+                <a href="{% url 'admin-student-acc' %}" class="block px-4 py-2 rounded hover:bg-gray-800">Siswa</a>
+                <a href="{% url 'admin-teacher-acc'%}" class="block px-4 py-2 rounded hover:bg-gray-800">Guru</a>
+                <a href="{% url 'admin-su-acc' %}" class="block px-4 py-2 rounded hover:bg-gray-800">Admin</a>
+            </div>
+        </div>
+
+        <div>
+            <button onclick="toggleMenu('pembelajaranMenu')"
+                class="w-full text-left px-4 py-2 mt-2 flex justify-between items-center hover:bg-gray-800 rounded">
+                <span>Pembelajaran</span>
+                <span>▾</span>
+            </button>
+            <div id="pembelajaranMenu" class="ml-2 mt-2 space-y-1 hidden">
+                <a href="{% url 'admin-exam-pem' %}" class="block px-4 py-2 rounded hover:bg-gray-800">Ujian</a>
+                <a href="{% url 'admin-mapel-pem' %}" class="block px-4 py-2 rounded hover:bg-gray-800">Mata
+                    pelajaran</a>
+                <a href="{% url 'admin-bank-pem' %}" class="block px-4 py-2 rounded hover:bg-gray-800">Bank soal</a>
+                <a href="{% url 'admin-exam-result-pem' %}" class="block px-4 py-2 rounded hover:bg-gray-800">Hasil
+                    ujian</a>
+                <a href="#" class="block px-4 py-2 rounded hover:bg-gray-800">Cetak Kartu</a>
+            </div>
+
+        </div>
+    </nav>
+</aside>

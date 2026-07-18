@@ -490,3 +490,8 @@ class QuestionDeleteView(View, AdminMixin):
             e.delete()
 
             return redirect("admin-bank-pem")
+
+class ExamResultView(View, AdminMixin):
+    def get(self, request):
+        model = Student.objects.all()
+        return render(request, "superuser/pages/pembelajaran/exam_result.html", context={"students":model})
