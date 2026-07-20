@@ -493,5 +493,20 @@ class QuestionDeleteView(View, AdminMixin):
 
 class ExamResultView(View, AdminMixin):
     def get(self, request):
-        model = Student.objects.all()
-        return render(request, "superuser/pages/pembelajaran/exam_result.html", context={"students":model})
+        model = Exam.objects.all()
+        return render(request, "superuser/pages/pembelajaran/exam_result.html", context={"exams":model})
+
+class ExamResultDetailView(View, AdminMixin):
+    def get(self, request, pk):
+        t = None
+        model = ExamFinish.objects.filter(exam=pk)
+        model2 = Result.objects.filter()
+        model3 = Question.objects.filter(exam=pk)
+
+        if model3.question_type == "multiple":
+            t = MultipleChoice.objects.filter(question_id=model3.id)
+
+        elif model3.question_type == "essay":
+            t = Essay.objects.filter(question_id=model3.id)
+
+        return render(request, "superuser/pages/pembelajaran/result_detail.html", context={"students":model})

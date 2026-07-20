@@ -29,15 +29,15 @@
                 </tr>
             </thead>
             <tbody class="text-gray-600 text-sm">
-                {% for s in students%}
+                {% for s in exams%}
                 <tr class="border-b border-gray-200 hover:bg-gray-100">
                     <td class="py-3 px-6 text-left">{{forloop.counter}}</td>
-                    <td class="py-3 px-6 text-left">{{s.user_id}}</td>
-                    <td class="py-3 px-6 text-left">{{s.gender}}</td>
-                    <td class="py-3 px-6 text-left">{{s.grade}}</td>
+                    <td class="py-3 px-6 text-left">{{s.course}}</td>
+                    <td class="py-3 px-6 text-left">{{s.subject}}</td>
+                    <td class="py-3 px-6 text-left">{{s.created_by}}</td>
                     <td class="py-3 px-6 text-center">
                         <div class="flex item-center justify-center">
-                            <a href="{% url 'admin-student-update-acc' pk=s.user_id %}" class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
+                            <a href="{% url 'admin-exam-result-detail-pem' pk=s.id %}" class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

@@ -28,6 +28,7 @@ urlpatterns = [
     path("test/pembelajaran/bank/question/<int:pk>/", QuestionView.as_view(), name="admin-bank-question-pem"),
     path("test/pembelajaran/bank/question/update/<int:pk>/<int:q>/", QuestionUpdateView.as_view(), name="admin-bank-question-update-pem"),
     path("test/pembelajaran/bank/question/delete/<int:pk>/<int:q>/", QuestionDeleteView.as_view(), name="admin-bank-question-delete-pem"),
-    path("test/pembelajaran/hasil/", ExamResultView.as_view(), name="admin-exam-result-pem"),
+    path("test/pembelajaran/result/", ExamResultView.as_view(), name="admin-exam-result-pem"),
+    path("test/pembelajaran/result/<int:pk>", ExamResultDetailView.as_view(), name="admin-exam-result-detail-pem"),
     path("", HomeView.as_view(), name="home"),
 ]
