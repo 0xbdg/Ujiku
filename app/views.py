@@ -6,6 +6,7 @@ from django.views.generic.edit import *
 from django.urls import reverse_lazy
 from django.shortcuts import render,get_object_or_404,redirect, HttpResponse
 from django.utils import timezone
+from django.db.models import Q
 from datetime import datetime
 from .forms import *
 from .models import *
@@ -36,18 +37,23 @@ class HomeView(ListView,StudentMixin):
     paginate_by = 6
 
     def get_context_data(self, *args, **kwargs):
+        date = timezone.localdate()
+        time = timezone.localtime().time()
         context = super().get_context_data(**kwargs)
 
-        context["exam_count"] = Exam.objects.count(),
+        context["exam_count"] = Exam.objects.filter(exam_date=date, start_time__lte=time, end_time__gte=time).count()
         context["exam_active"] = Exam.objects.filter(
-            start_time__lte=timezone.localtime().time(),
-            end_time__gte=timezone.localtime().time()
+            exam_date=date,
+            start_time__lte=time,
+            end_time__gte=time
         )
         context["exam_ended"] = Exam.objects.filter(
-            end_time__lte=timezone.localtime().time()
+            Q(exam_date__lt=date)|
+            Q(exam_date=date,end_time__lte=time)
         )
         context["exam_inactive"] = Exam.objects.filter(
-            start_time__gte=timezone.localtime().time()
+            Q(exam_date__gt=date)|
+            Q(exam_date=date,start_time__gte=time)
         )
         return context
 
@@ -110,7 +116,7 @@ class DashboardView(TemplateView, AdminMixin):
         context = super().get_context_data(**kwargs)
         context["student_c"] = Student.objects.count()
         context["teacher_c"] = Teacher.objects.count()
-        context["exam_c"] = Exam.objects.count()
+        context["exam_c"] = Exam.objects.filter(exam_date=timezone.localdate(), start_time__lte=timezone.localtime().time(), end_time__gte=timezone.localtime().time()).count()
         context["question_c"] = Question.objects.count()
         return context
 
@@ -501,7 +507,7 @@ class ExamResultDetailView(View, AdminMixin):
         t = None
         model = ExamFinish.objects.filter(exam=pk)
         model2 = Result.objects.filter()
-        model3 = Question.objects.filter(exam=pk)
+        model3 = Question.objects.get(exam=pk)
 
         if model3.question_type == "multiple":
             t = MultipleChoice.objects.filter(question_id=model3.id)
@@ -509,4 +515,4 @@ class ExamResultDetailView(View, AdminMixin):
         elif model3.question_type == "essay":
             t = Essay.objects.filter(question_id=model3.id)
 
-        return render(request, "superuser/pages/pembelajaran/result_detail.html", context={"students":model})
+        return render(request, "superuser/pages/pembelajaran/result_detail.html", context={"students":model, "questions":t})

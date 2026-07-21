@@ -4,7 +4,7 @@ from django_ckeditor_5.fields import CKEditor5Field
 
 GENDER = (("Male", "male"), ("Female", "female"))
 GRADE = (("X", "X"), ("XI", "XI"), ("XII","XII"))
-TYPE = (("multiple", "Multiple Choices"), ("essay", "Essay"))
+TYPE = (("multiple", "multiple"), ("essay", "essay"))
 
 
 class Account(AbstractUser):

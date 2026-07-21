@@ -24,7 +24,6 @@
                     <th class="py-3 px-6 text-left">ID</th>
                     <th class="py-3 px-6 text-left">Exam</th>
                     <th class="py-3 px-6 text-left">Subject</th>
-                    <th class="py-3 px-6 text-left">Teacher</th>
                     <th class="py-3 px-6 text-center">Actions</th>
                 </tr>
             </thead>
@@ -34,7 +33,6 @@
                     <td class="py-3 px-6 text-left">{{forloop.counter}}</td>
                     <td class="py-3 px-6 text-left">{{s.course}}</td>
                     <td class="py-3 px-6 text-left">{{s.subject}}</td>
-                    <td class="py-3 px-6 text-left">{{s.created_by}}</td>
                     <td class="py-3 px-6 text-center">
                         <div class="flex item-center justify-center">
                             <a href="{% url 'admin-exam-result-detail-pem' pk=s.id %}" class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
